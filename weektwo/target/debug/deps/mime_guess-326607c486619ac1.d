@@ -1,0 +1,12 @@
+/home/white-rust/Desktop/my_project/MPL-RUSTBOOTCAMP-internship/weektwo/target/debug/deps/mime_guess-326607c486619ac1.d: /home/white-rust/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime_guess-2.0.5/src/lib.rs /home/white-rust/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime_guess-2.0.5/src/impl_bin_search.rs /home/white-rust/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime_guess-2.0.5/src/mime_types.rs /home/white-rust/Desktop/my_project/MPL-RUSTBOOTCAMP-internship/weektwo/target/debug/build/mime_guess-6f82ebb38f068ff1/out/mime_types_generated.rs
+
+/home/white-rust/Desktop/my_project/MPL-RUSTBOOTCAMP-internship/weektwo/target/debug/deps/libmime_guess-326607c486619ac1.rlib: /home/white-rust/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime_guess-2.0.5/src/lib.rs /home/white-rust/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime_guess-2.0.5/src/impl_bin_search.rs /home/white-rust/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime_guess-2.0.5/src/mime_types.rs /home/white-rust/Desktop/my_project/MPL-RUSTBOOTCAMP-internship/weektwo/target/debug/build/mime_guess-6f82ebb38f068ff1/out/mime_types_generated.rs
+
+/home/white-rust/Desktop/my_project/MPL-RUSTBOOTCAMP-internship/weektwo/target/debug/deps/libmime_guess-326607c486619ac1.rmeta: /home/white-rust/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime_guess-2.0.5/src/lib.rs /home/white-rust/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime_guess-2.0.5/src/impl_bin_search.rs /home/white-rust/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime_guess-2.0.5/src/mime_types.rs /home/white-rust/Desktop/my_project/MPL-RUSTBOOTCAMP-internship/weektwo/target/debug/build/mime_guess-6f82ebb38f068ff1/out/mime_types_generated.rs
+
+/home/white-rust/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime_guess-2.0.5/src/lib.rs:
+/home/white-rust/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime_guess-2.0.5/src/impl_bin_search.rs:
+/home/white-rust/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime_guess-2.0.5/src/mime_types.rs:
+/home/white-rust/Desktop/my_project/MPL-RUSTBOOTCAMP-internship/weektwo/target/debug/build/mime_guess-6f82ebb38f068ff1/out/mime_types_generated.rs:
+
+# env-dep:MIME_TYPES_GENERATED_PATH=/home/white-rust/Desktop/my_project/MPL-RUSTBOOTCAMP-internship/weektwo/target/debug/build/mime_guess-6f82ebb38f068ff1/out/mime_types_generated.rs
