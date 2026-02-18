@@ -1,0 +1,16 @@
+# Rust/Cargo
+/target/
+**/target/
+**/Cargo.lock
+
+# Environment
+.env
+
+# VS Code
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Other
+.marscode/
