@@ -21,23 +21,7 @@ pub async fn create_user (pool: web::Data<PgPool>, data:web::Json<CreateUser>,) 
 }
 
 
-
-// read all user here 
-pub async fn get_users(pool: web::Data<PgPool>) -> HttpResponse {
-    let users = sqlx::query_as!(User,
-        "SELECT id, name, email FROM users"
-    )
-    .fetch_all(pool.get_ref()).await;
-
-    match users {
-        Ok(data) => HttpResponse::Ok().json(data),
-        Err(_) => HttpResponse::InternalServerError().finish(),
-    }
-}
-
-
 // read single User
-
 pub async fn get_user(pool: web::Data<PgPool>,id: web::Path<Uuid>,) -> HttpResponse {
     let user = sqlx::query_as!(
         User,
@@ -45,14 +29,12 @@ pub async fn get_user(pool: web::Data<PgPool>,id: web::Path<Uuid>,) -> HttpRespo
         *id
     )
     .fetch_optional(pool.get_ref()).await;
-
     match user {
         Ok(Some(user)) => HttpResponse::Ok().json(user),
         Ok(None) => HttpResponse::NotFound().finish(),
         Err(_) => HttpResponse::InternalServerError().finish(),
     }
 }
-
 
 
 // udate User 
@@ -73,8 +55,6 @@ pub async fn update_user(pool:web::Data<PgPool>, id: web::Path<Uuid>,data: web::
 }
 
 
-
-
 // delete user in the database
 pub async fn delete_user(pool: web::Data<PgPool>, id: web::Path<Uuid>,) -> HttpResponse {
     let result = sqlx::query!(
@@ -88,5 +68,45 @@ pub async fn delete_user(pool: web::Data<PgPool>, id: web::Path<Uuid>,) -> HttpR
         Ok(res) if res.rows_affected() == 1 => HttpResponse::NoContent().finish(),
         Ok(_) => HttpResponse::NotFound().finish(),
         Err(_) => HttpResponse::InternalServerError().finish(),
+    }
+}
+
+
+// handler with pagination 
+// read all user here 
+pub async fn get_users(pool: web::Data<PgPool>, query: web::Query<Pagination>) -> HttpResponse {
+    let page = query.page.unwrap_or(1).max(1);
+    let limit = query.limit.unwrap_or(10).clamp(1, 100);
+    let offset = (page - 1) * limit;
+
+    let users = sqlx::query_as!(
+        User, 
+        "SELECT id, name, email FROM users ORDER BY created_at desc limit $1 OFFSET $2",
+        limit,
+        offset
+        )
+        .fetch_all(pool.get_ref())
+        .await;
+    
+    let total = sqlx::query!(
+        "SELECT count(*) AS count FROM users"
+    )
+    .fetch_one(pool.get_ref())
+    .await;
+
+    match(users, total) {
+        (Ok(data), Ok(total)) => {
+            let total = total.count.unwrap_or(0);
+            let total_page = (total as f64 / limit as f64).ceil() as i64;
+
+            HttpResponse::Ok().json(PaginationResponse{
+                data,
+                page,
+                limit,
+                total,
+                total_page
+            })
+        }
+        _ => HttpResponse::InternalServerError().finish(),
     }
 }

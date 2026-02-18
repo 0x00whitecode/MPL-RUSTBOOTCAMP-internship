@@ -20,3 +20,22 @@ pub struct UpdateUser {
     pub email: Option<String>,
 }
 
+
+
+// pagination model
+#[derive(Deserialize)]
+pub struct Pagination {
+    pub page: Option<i64>,
+    pub limit: Option<i64>,
+}
+
+
+// response wrapper model
+#[derive(Serialize)]
+pub struct PaginationResponse<T> {
+    pub data: Vec<T>,
+    pub page: i64,
+    pub limit: i64,
+    pub total: i64,
+    pub total_page: i64
+}

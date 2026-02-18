@@ -9,13 +9,14 @@ This is a simple user management REST API that allows you to create, read, updat
 ## Features
 
 - ✅ Create new users
-- ✅ Retrieve all users
+- ✅ Retrieve all users with pagination
 - ✅ Retrieve a single user by ID
 - ✅ Update user information
 - ✅ Delete users
 - ✅ UUID-based user identification
 - ✅ Type-safe database queries with SQLx
 - ✅ Async/await architecture
+- ✅ Pagination support with configurable page and limit
 
 ## Project Structure
 
@@ -116,24 +117,36 @@ The server will start on `http://127.0.0.1:8080`
 
 ---
 
-### 2. Get All Users
+### 2. Get All Users (with Pagination)
 
 **Endpoint:** `GET /users`
 
+**Query Parameters:**
+- `page` (optional, default: 1): The page number for pagination
+- `limit` (optional, default: 10): Number of users per page (max: 100)
+
+**Example:** `GET /users?page=1&limit=10`
+
 **Response:** `200 OK`
 ```json
-[
-  {
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "name": "John Doe",
-    "email": "john@example.com"
-  },
-  {
-    "id": "550e8400-e29b-41d4-a716-446655440001",
-    "name": "Jane Smith",
-    "email": "jane@example.com"
-  }
-]
+{
+  "data": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "name": "John Doe",
+      "email": "john@example.com"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440001",
+      "name": "Jane Smith",
+      "email": "jane@example.com"
+    }
+  ],
+  "page": 1,
+  "limit": 10,
+  "total": 2,
+  "total_page": 1
+}
 ```
 
 ---
@@ -191,9 +204,16 @@ The server will start on `http://127.0.0.1:8080`
 **Response:** `204 No Content`
 
 **Error Responses:**
-- `404 Not Found` if user doesn't exist
-- `500 Internal Server Error` on database error
+- `404 Not Found` (with pagination)
+```bash
+# Get first page with default limit (10)
+curl http://127.0.0.1:8080/users
 
+# Get specific page with custom limit
+curl http://127.0.0.1:8080/users?page=1&limit=5
+
+# Get second page
+curl http://127.0.0.1:8080/users?page=2&limit=10
 ## Example Usage with cURL
 
 ### Create a user
@@ -244,6 +264,25 @@ pub struct CreateUser {
 }
 ```
 
+
+### Pagination
+```rust
+pub struct Pagination {
+    pub page: Option<i64>,
+    pub limit: Option<i64>,
+}
+```
+
+### PaginationResponse
+```rust
+pub struct PaginationResponse<T> {
+    pub data: Vec<T>,
+    pub page: i64,
+    pub limit: i64,
+    pub total: i64,
+    pub total_page: i64
+}
+```
 ### UpdateUser
 ```rust
 pub struct UpdateUser {
@@ -281,11 +320,26 @@ The API returns appropriate HTTP status codes:
 
 - **201 Created:** User successfully created
 - **200 OK:** Request successful
-- **204 No Content:** Resource deleted successfully
-- **404 Not Found:** Resource not found
-- **500 Internal Server Error:** Database or server error
+- *Pagination Details
 
-## Troubleshooting
+The GET `/users` endpoint supports pagination to handle large datasets efficiently:
+
+- **Default Page:** 1 (starts from page 1)
+- **Default Limit:** 10 users per page
+- **Max Limit:** 100 users per page
+- **Response includes:**
+  - `data`: Array of users on the current page
+  - `page`: Current page number
+  - `limit`: Number of users per page
+  - `total`: Total number of users in the database
+  - `total_page`: Total number of pages available
+
+This allows clients to retrieve users in manageable chunks and navigate through the complete dataset.
+
+## Future Enhancements
+
+- Add user authentication and authorization
+- Add input validation
 
 ### Database Connection Error
 Ensure:
