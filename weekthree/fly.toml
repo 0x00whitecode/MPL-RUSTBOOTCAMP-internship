@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for mpl-rustbootcamp-internship on 2026-02-21T03:32:56Z
+# fly.toml app configuration file generated for mpl-rustbootcamp-internship on 2026-02-21T04:32:57Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -7,9 +7,6 @@ app = 'mpl-rustbootcamp-internship'
 primary_region = 'jnb'
 
 [build]
-
-[env]
-  PORT = '8080'
 
 [http_service]
   internal_port = 8080
