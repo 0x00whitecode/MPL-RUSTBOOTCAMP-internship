@@ -5,6 +5,16 @@ use std::env;
 
 pub async fn establish_connection() -> PgPool {
     dotenv().ok();
-    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    
+    let environment = env::var("ENV").unwrap_or_else(|_| "local".to_string());
+    
+    let database_url = match environment.as_str() {
+        "prod" => env::var("PROD_DATABASE_URL").expect("PROD_DATABASE_URL must be set"),
+        "production" => env::var("PROD_DATABASE_URL").expect("PROD_DATABASE_URL must be set"),
+        _ => env::var("LOCAL_DATABASE_URL").expect("LOCAL_DATABASE_URL must be set"),
+    };
+    
+    println!("Connecting to database in {} environment", environment);
+    
     PgPool::connect(&database_url).await.expect("Failed to connect to the database")
 }
