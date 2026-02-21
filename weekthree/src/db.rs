@@ -42,8 +42,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(web::Data::new(pool.clone()))
             .configure(routes::user_routes)
-            // Optional: health check for Fly.io
-            .route("/health", web::get().to(|| async { "OK" }))
+           
     })
     // Bind to 0.0.0.0 so Fly.io can access it
     .bind(("0.0.0.0", port))?
